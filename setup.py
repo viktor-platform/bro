@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+from pathlib import Path
 
 about = {}
 with open(Path(__file__).parent / 'bro' / '__version__.py', 'r') as f:
