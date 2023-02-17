@@ -1,8 +1,5 @@
 from setuptools import setup, find_packages
 
-with open("README.rst", "r") as f:
-    long_description = f.read()
-
 about = {}
 with open(Path(__file__).parent / 'bro' / '__version__.py', 'r') as f:
     exec(f.read(), about)
