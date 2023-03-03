@@ -62,23 +62,6 @@ class Circle:
             }
         }
 
-    def circle_in_linestring_format(self, as_wgs84: bool = True) -> List:
-        """
-        Generates a list of coordinates representing a circle in a LineString format (list of (lat, lon) points), which can be used in GeoJSONs.
-        :return: List with circle coordinates in EPSG:4326 format
-        """
-        # convert with pyproj to RD, make circle, convert back
-        if self.center.crs == "EPSG:4326":
-            circle_center = SHPoint(Point.from_wgs84_to_rd(self.center.lon, self.center.lat))
-        else:
-            circle_center = SHPoint(Point(self.center.lon, self.center.lat))
-        circle = circle_center.buffer(self.radius)
-        # TODO, convert circle_center points back to EPSG:4326
-        if as_wgs84:
-            points = [Point.from_rd_to_wgs84(*p) for p in list(circle.exterior.coords)]
-            return points  # TODO: Make tuple?
-        return list(circle.exterior.coords)
-
     @property
     def to_geojson_feature(self):
         return {
