@@ -1,8 +1,6 @@
 import json
 from typing import List
 
-from ..bro_objects.geometry import Envelope
-
 
 def _str2bool(s) -> bool:
     """
@@ -15,7 +13,7 @@ def _str2bool(s) -> bool:
 
 def construct_valid_geojson_from_characteristics(
         characteristics: List,
-        area: Envelope = None,
+        area=None,
 ) -> str:
     """Generates a str containing a valid geojson structure from separate objects.
 
@@ -26,8 +24,7 @@ def construct_valid_geojson_from_characteristics(
     # TODO: Add Circle area as polygon, Circle with shapely?
 
     features = [characteristic.to_geojson_feature for characteristic in characteristics]
-    if isinstance(area, Envelope):
-        features += [area.to_geojson_feature]
+    features += [area.to_geojson_feature]
 
     return json.dumps(
         {
