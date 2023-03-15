@@ -4,7 +4,7 @@ from typing import List
 from ..bro_objects.geometry import Envelope
 
 
-def str2bool(s) -> bool:
+def _str2bool(s) -> bool:
     """
     converts a value to bool based on certain
     :param s: int, str, float

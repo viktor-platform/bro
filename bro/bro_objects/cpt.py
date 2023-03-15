@@ -4,7 +4,7 @@ from typing import Union
 from lxml import etree
 
 from .geometry import Point
-from ..helpers.helper_functions import str2bool
+from ..helpers.helper_functions import _str2bool
 
 
 class CPTCharacteristics:
@@ -14,11 +14,11 @@ class CPTCharacteristics:
     def __init__(self, parsed_dispatch_document: dict):
         self.gml_id: str = parsed_dispatch_document["gml:id"]
         self.bro_id: str = parsed_dispatch_document["brocom:broId"]
-        self.deregistered: bool = str2bool(parsed_dispatch_document["brocom:deregistered"])
+        self.deregistered: bool = _str2bool(parsed_dispatch_document["brocom:deregistered"])
         self.accountable_party: int = parsed_dispatch_document["brocom:deliveryAccountableParty"]
         self.quality_regime: str = parsed_dispatch_document["brocom:qualityRegime"]
         self.object_registration_time: str = parsed_dispatch_document["brocom:objectRegistrationTime"]
-        self.under_review: bool = str2bool(parsed_dispatch_document["brocom:underReview"])
+        self.under_review: bool = _str2bool(parsed_dispatch_document["brocom:underReview"])
         self.standardized_location: Point = Point(*tuple(elem for elem in parsed_dispatch_document["brocom:standardizedLocation"]["gml:pos"].split(' ')))  # to tuple or Point?
         self.delivered_location: Point = Point(*tuple(elem for elem in parsed_dispatch_document["brocom:deliveredLocation"]["gml:pos"].split(' ')))  # to tuple or Point?
         self.local_vertical_reference_point: str = parsed_dispatch_document["localVerticalReferencePoint"]["value"]
@@ -31,7 +31,7 @@ class CPTCharacteristics:
         self.predrilled_depth: float = float(parsed_dispatch_document["predrilledDepth"]["value"]) if parsed_dispatch_document.get("predrilledDepth") else None
         self.final_depth: float = float(parsed_dispatch_document["finalDepth"]["value"])
         self.survey_purpose: str = parsed_dispatch_document["surveyPurpose"]["value"]
-        self.dissipation_test_performed: bool = str2bool(parsed_dispatch_document["dissipationTestPerformed"])
+        self.dissipation_test_performed: bool = _str2bool(parsed_dispatch_document["dissipationTestPerformed"])
         self.stop_criterion: str = parsed_dispatch_document["stopCriterion"]["value"]
 
     @property
