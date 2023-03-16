@@ -1,39 +1,31 @@
 from dataclasses import dataclass
+from pathlib import Path
+
 from pyproj import Transformer
 from typing import Union, List
 
 import requests
 import xmltodict
 
-from helper_functions import _str2bool
-from objects import IMBROFile
+from .helper_functions import _str2bool
+from .objects import IMBROFile
 
+about = {}
+with open(Path(__file__).parent / '__version__.py', 'r') as f:
+    exec(f.read(), about)
+
+REQUEST_REFERENCE = f"Requested-with-bro-v{about['__version__']}"
 CPT_OBJECT_URL = "https://publiek.broservices.nl/sr/cpt/v1/objects/"
-CPT_CHARACTERISTICS_URL = "https://publiek.broservices.nl/sr/cpt/v1/characteristics/searches?requestReference=bro-package'"
+CPT_CHARACTERISTICS_URL = f"https://publiek.broservices.nl/sr/cpt/v1/characteristics/searches?requestReference={REQUEST_REFERENCE}"
 
 
 @dataclass
-class Point:
-    lat: float
-    lon: float
+class RDPoint:
+    x: float
+    y: float
 
-    @classmethod
-    def from_wgs84_to_rd(cls, lat: float, lon: float) -> "Point":
-        """Converts lat/Lon coordinates (EPSG: 4326) in degrees to RD coordinates (EPSG:28992)
-        EPSG:4326 is WGS84
-        EPSG:28992 is projected coordinate system Amersfoort / RD New in m
-
-        :param lat: float latitude in degree (WGS84 / EPSG:4326)
-        :param lon: float longitude in degree (WGS84 / EPSG4326)
-        :return:
-        """
-        transformer = Transformer.from_crs(4326, 28992)
-        rd_y, rd_x = transformer.transform(lat, lon)
-        return cls(rd_y, rd_x)
-
-    @classmethod
-    def from_rd_to_wgs84(cls, x: float, y: float) -> "Point":
-        """Converts RD coordinates (EPSG:28992) in m  to lat/Lon coordinates (EPSG: 4326) in degrees
+    def from_rd_to_wgs84(self) -> "Point":
+        """Converts RD coordinates (EPSG:28992) in m  to lat/lon coordinates (EPSG: 4326) in degrees
         EPSG:4326 is WGS84
         EPSG:28992 is projected coordinate system Amersfoort / RD New in m
 
@@ -42,8 +34,27 @@ class Point:
         :return:
         """
         transformer = Transformer.from_crs(28992, 4326)
-        lat, lon = transformer.transform(x, y)
-        return cls(lat, lon)
+        lat, lon = transformer.transform(self.x, self.y)
+        return Point(lat, lon)
+
+
+@dataclass
+class Point:
+    lat: float
+    lon: float
+
+    def from_wgs84_to_rd(self) -> "RDPoint":
+        """Converts lat/Lon coordinates (EPSG: 4326) in degrees to RD coordinates (EPSG:28992)
+        EPSG:4326 is WGS84
+        EPSG:28992 is projected coordinate system Amersfoort / RD New in m
+
+        :param lat: float latitude in degree (WGS84 / EPSG:4326)
+        :param lon: float longitude in degree (WGS84 / EPSG:4326)
+        :return:
+        """
+        transformer = Transformer.from_crs(4326, 28992)
+        rd_y, rd_x = transformer.transform(self.lat, self.lon)
+        return RDPoint(rd_y, rd_x)
 
 
 @dataclass
@@ -134,8 +145,8 @@ class CPTCharacteristics:
         self.quality_regime: str = parsed_dispatch_document["brocom:qualityRegime"]
         self.object_registration_time: str = parsed_dispatch_document["brocom:objectRegistrationTime"]
         self.under_review: bool = _str2bool(parsed_dispatch_document["brocom:underReview"])
-        self.standardized_location: Point = Point(*tuple(elem for elem in parsed_dispatch_document["brocom:standardizedLocation"]["gml:pos"].split(' ')))  # to tuple or Point?
-        self.delivered_location: Point = Point(*tuple(elem for elem in parsed_dispatch_document["brocom:deliveredLocation"]["gml:pos"].split(' ')))  # to tuple or Point?
+        self.standardized_location: Point = Point(*tuple(elem for elem in parsed_dispatch_document["brocom:standardizedLocation"]["gml:pos"].split(' ')))
+        self.delivered_location: RDPoint = RDPoint(*tuple(elem for elem in parsed_dispatch_document["brocom:deliveredLocation"]["gml:pos"].split(' ')))
         self.local_vertical_reference_point: str = parsed_dispatch_document["localVerticalReferencePoint"]["value"]
         self.vertical_datum: str = parsed_dispatch_document["verticalDatum"]["value"]
         self.cpt_standard: str = parsed_dispatch_document["cptStandard"]["value"]
@@ -155,7 +166,7 @@ class CPTCharacteristics:
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": [self.wgs84_coordinates.lon, self.wgs84_coordinates.lat]
+                "coordinates": [self.wgs84_coordinate.lon, self.wgs84_coordinate.lat]
             },
             "properties": {
                 "bro_id": f"{self.bro_id}"
@@ -163,11 +174,11 @@ class CPTCharacteristics:
         }
 
     @property
-    def rd_coordinates(self) -> Point:
+    def rd_coordinate(self) -> RDPoint:
         return self.delivered_location
 
     @property
-    def wgs84_coordinates(self) -> Point:
+    def wgs84_coordinate(self) -> Point:
         return self.standardized_location
 
 
@@ -263,7 +274,7 @@ def get_cpt_object(
     }
 
     response = requests.get(
-        f"{CPT_OBJECT_URL}{bro_cpt_id}",
+        f"{CPT_OBJECT_URL}{bro_cpt_id}?requestReference={REQUEST_REFERENCE}",
         headers=headers,
     )
     # Check status code, 200 -> xml, 400 -> json
