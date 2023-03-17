@@ -17,6 +17,10 @@ setup(
     license='MIT',
     packages=find_packages(exclude=['tests']),
     install_requires=[
+        "xmltodict==0.13.0",
+        "requests==2.28.2",
+        "lxml==4.9.2",
+        "pyproj==3.4.1"
     ],
     test_suite='tests',
 )
