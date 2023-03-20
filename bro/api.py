@@ -189,24 +189,18 @@ def get_cpt_characteristics_and_return_cpt_objects(
     as_dict: bool = False,
 ) -> List[Union[bytes, dict]]:
     """
-    TODO: Add
     Note: It is not allowed to have more than 1000 objects in one request (or more than 500 MB), the request will fail otherwise.
     :param begin_date: date str in format YYYY-mm-dd (.strftime("%Y-%m-%d")) and should be > 2015-01-01
     :param end_date: date str in format YYYY-mm-dd (.strftime("%Y-%m-%d"))
     :param area: Union[Circle, Envelope] definition of area in which to look for CPT objects
     :param as_dict: bool indicating whether the returned objects should be xml_bytes (as_dict=False) or as dict (bool=True)
-    :return: A list of xml bytes or a the parsed xml in dictionary format.
+    :return: A list of xml bytes or the parsed xml in dictionary format.
     """
     available_cpts = get_cpt_characteristics(begin_date, end_date, area)
-
     # TODO: Add logging for amount of cpts to be retrieved
 
     # Retrieve the objects in series
-    bro_cpt_objects = []
-    for available_cpt in available_cpts:
-        cpt_obj = get_cpt_object(available_cpt.bro_id, as_dict=as_dict)
-        bro_cpt_objects.append(cpt_obj)
-
+    bro_cpt_objects = [get_cpt_object(available_cpt.bro_id, as_dict=as_dict) for available_cpt in available_cpts]
     return bro_cpt_objects
 
 

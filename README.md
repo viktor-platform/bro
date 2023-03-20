@@ -11,9 +11,11 @@ pip install bro
 
 ```python
 
-from bro.temp import temp_func
+from bro import Point, Envelope
+from bro import get_cpt_characteristics
+from bro import get_cpt_object
+from bro import get_cpt_characteristics_and_return_cpt_objects
 
-temp_func()
 ```
 
 
