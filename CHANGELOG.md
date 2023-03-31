@@ -1,5 +1,9 @@
 # Changelog
 
+## (v0.2.1rc4) (31/3/2023)
+### Removed
+- Temporarily remove project urls
+
 ## (v0.2.1rc3) (31/3/2023)
 
 ### Added

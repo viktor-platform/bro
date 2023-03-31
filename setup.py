@@ -41,8 +41,8 @@ setup(
         'Programming Language :: Python :: 3.11',
     ],
     test_suite='tests',
-    project_urls={
-        'Example VIKTOR application': '',  # TODO: update
-        'Source code example VIKTOR application': '',  # TODO: update
-    }
+    # project_urls={
+    #     'Example VIKTOR application': '',  # TODO: update
+    #     'Source code example VIKTOR application': '',  # TODO: update
+    # }
 )
