@@ -1,6 +1,6 @@
 # Changelog
 
-## (v0.2.1rc2) (-/-/2023)
+## (v0.2.1rc2) (31/3/2023)
 
 ### Added
 - Added functionality to define an area (Circle, Envelope)  
