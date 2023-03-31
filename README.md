@@ -1,3 +1,5 @@
+![](https://img.shields.io/badge/release-vX.Y.Z-green)
+
 # BRO
 This package can access the REST API from the [BRO](https://www.broloket.nl/ondergrondgegevens). Currently, this package provides
 functionality to request CPTs from the BRO when you provide a region of interest. The format is based on the REST API of the BRO, which is described [here](https://publiek.broservices.nl/sr/cpt/v1/swagger-ui/#/default/) for CPTs.
