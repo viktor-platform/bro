@@ -1,5 +1,9 @@
 # Changelog
 
+## (v0.2.1rc5) (31/3/2023)
+### Fixed
+- Inconsistent tags
+
 ## (v0.2.1rc4) (31/3/2023)
 ### Removed
 - Temporarily remove project urls
