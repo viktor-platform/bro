@@ -11,7 +11,7 @@ def _str2bool(s) -> bool:
     return str(s).lower() in ("ja", "yes", "true", "t", "1")
 
 
-def construct_valid_geojson_from_characteristics(
+def construct_geojson_from_characteristics(
         characteristics: List,
         area=None,
 ) -> str:
