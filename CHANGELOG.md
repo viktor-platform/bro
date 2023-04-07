@@ -1,5 +1,8 @@
 # Changelog
 
+## (v0.2.3) (07/4/2023)
+### Fixed
+- Fixed character length in setup.py project_urls
 
 ## (v0.2.2) (07/4/2023)
 ### Added
