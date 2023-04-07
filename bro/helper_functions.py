@@ -12,8 +12,8 @@ def _str2bool(s) -> bool:
 
 
 def construct_geojson_from_characteristics(
-        characteristics: List,
-        area=None,
+    characteristics: List,
+    area=None,
 ) -> str:
     """Generates a str containing a valid geojson structure from separate objects.
 
@@ -26,9 +26,4 @@ def construct_geojson_from_characteristics(
     features = [characteristic.to_geojson_feature for characteristic in characteristics]
     features += [area.to_geojson_feature]
 
-    return json.dumps(
-        {
-            "type": "FeatureCollection",
-            "features": features
-        }
-    )
+    return json.dumps({"type": "FeatureCollection", "features": features})

@@ -8,6 +8,7 @@ class IMBROFile:
     """
     Class to handle paring of BRO XML files, currently working for the CPT API.
     """
+
     def __init__(self, file_content: bytes):
         self.file_content = file_content
 
@@ -39,8 +40,7 @@ class IMBROFile:
             tag = child.tag.split("}")[-1] if "}" in child.tag else child.tag
             if tag == "parameters":
                 grand_children["parameters"] = [
-                    (sub_child.tag.split("}")[-1], sub_child.text in {"ja", 1})
-                    for sub_child in child
+                    (sub_child.tag.split("}")[-1], sub_child.text in {"ja", 1}) for sub_child in child
                 ]
             else:
                 grand_children[tag] = cls._parse_xml_to_dict_recursively(child)

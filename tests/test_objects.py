@@ -5,7 +5,6 @@ from bro import IMBROFile
 
 
 class TestIMBROFile(unittest.TestCase):
-
     def test_from_file_returns_objects(self):
         # Arrange
         xml_file = Path(__file__).parent / "response_CPT000000053405.xml"
