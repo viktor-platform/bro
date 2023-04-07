@@ -45,6 +45,6 @@ setup(
     test_suite="tests",
     project_urls={
         "Example VIKTOR application": "https://demo.viktor.ai/public/bro-app",
-        "Source code example VIKTOR application": "https://github.com/viktor-platform/bro-app",
+        "Source code VIKTOR application": "https://github.com/viktor-platform/bro-app",
     },
 )
