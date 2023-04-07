@@ -1,5 +1,9 @@
 # Changelog
 
+## (v0.2.4) (07/4/2023)
+### Fixed
+- Fixed type comparison if there are no documents 
+
 ## (v0.2.3) (07/4/2023)
 ### Fixed
 - Fixed character length in setup.py project_urls
