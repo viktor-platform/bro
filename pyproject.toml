@@ -1,0 +1,27 @@
+[tool.isort]
+profile="black"
+line_length = 120
+multi_line_output=1
+include_trailing_comma= true
+force_grid_wrap=0
+use_parentheses= false
+
+[tool.pylint]
+max-line-length = 120
+disable= [
+    "missing-docstring",
+    "no-name-in-module",
+    "duplicate-code",
+    "line-too-long",
+    "invalid-name",
+    "too-few-public-methods",
+    "too-many-locals",
+    "fixme",
+    "too-many-arguments",
+    "too-many-branches",
+    "unspecified-encoding"
+]
+max-attributes = 25
+
+[tool.black]
+line_length = 120
