@@ -281,7 +281,7 @@ def get_cpt_characteristics(begin_date: str, end_date: str, area: Union[Circle, 
             raise ValueError(f"{rejection_reason}")
 
         nr_of_documents = parsed["dispatchCharacteristicsResponse"].get("numberOfDocuments")
-        if nr_of_documents == 0:
+        if nr_of_documents == "0":
             raise ValueError(
                 "No available objects have been found in given date + area range. Retry with different parameters."
             )
