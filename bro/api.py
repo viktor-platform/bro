@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from pyproj import Transformer
-from typing import Union, List
+from typing import Union, List, Optional
 
 import requests
 import xmltodict
@@ -147,18 +147,18 @@ class CPTCharacteristics:
         self.under_review: bool = _str2bool(parsed_dispatch_document["brocom:underReview"])
         self.standardized_location: Point = Point(*tuple(elem for elem in parsed_dispatch_document["brocom:standardizedLocation"]["gml:pos"].split(' ')))
         self.delivered_location: RDPoint = RDPoint(*tuple(elem for elem in parsed_dispatch_document["brocom:deliveredLocation"]["gml:pos"].split(' ')))
-        self.local_vertical_reference_point: str = parsed_dispatch_document["localVerticalReferencePoint"]["value"]
-        self.vertical_datum: str = parsed_dispatch_document["verticalDatum"]["value"]
-        self.cpt_standard: str = parsed_dispatch_document["cptStandard"]["value"]
-        self.offset: float = float(parsed_dispatch_document["offset"]["value"])
-        self.quality_class: str = parsed_dispatch_document["qualityClass"]
-        self.research_report_date: str = parsed_dispatch_document["researchReportDate"]["brocom:date"]
-        self.start_time: str = parsed_dispatch_document["startTime"]
-        self.predrilled_depth: float = float(parsed_dispatch_document["predrilledDepth"]["value"]) if parsed_dispatch_document.get("predrilledDepth") else None
-        self.final_depth: float = float(parsed_dispatch_document["finalDepth"]["value"])
-        self.survey_purpose: str = parsed_dispatch_document["surveyPurpose"]["value"]
-        self.dissipation_test_performed: bool = _str2bool(parsed_dispatch_document["dissipationTestPerformed"])
-        self.stop_criterion: str = parsed_dispatch_document["stopCriterion"]["value"]
+        self.local_vertical_reference_point: Optional[str] = parsed_dispatch_document["localVerticalReferencePoint"]["value"] if parsed_dispatch_document.get("localVerticalReferencePoint") else None
+        self.vertical_datum: Optional[str] = parsed_dispatch_document["verticalDatum"]["value"] if parsed_dispatch_document.get("verticalDatum") else None
+        self.cpt_standard: Optional[str] = parsed_dispatch_document["cptStandard"]["value"] if parsed_dispatch_document.get("cptStandard") else None
+        self.offset: Optional[float] = float(parsed_dispatch_document["offset"]["value"]) if parsed_dispatch_document.get("offset") else None
+        self.quality_class: Optional[str] = parsed_dispatch_document["qualityClass"] if parsed_dispatch_document.get("offset") else None
+        self.research_report_date: Optional[str] = parsed_dispatch_document["researchReportDate"]["brocom:date"] if parsed_dispatch_document.get("researchReportDate") else None
+        self.start_time: Optional[str] = parsed_dispatch_document.get("startTime")
+        self.predrilled_depth: Optional[float] = float(parsed_dispatch_document["predrilledDepth"]["value"]) if parsed_dispatch_document.get("predrilledDepth") else None
+        self.final_depth: Optional[float] = float(parsed_dispatch_document["finalDepth"]["value"]) if parsed_dispatch_document.get("finalDepth") else None
+        self.survey_purpose: Optional[str] = parsed_dispatch_document["surveyPurpose"]["value"] if parsed_dispatch_document.get("surveyPurpose") else None
+        self.dissipation_test_performed: Optional[bool] = _str2bool(parsed_dispatch_document["dissipationTestPerformed"]) if parsed_dispatch_document.get("dissipationTestPerformed") else None
+        self.stop_criterion: Optional[str] = parsed_dispatch_document["stopCriterion"]["value"] if parsed_dispatch_document.get("stopCriterion") else None
 
     @property
     def to_geojson_feature(self) -> dict:
@@ -237,10 +237,16 @@ def get_cpt_characteristics(
     )
 
     available_cpt_objects = []
-    # Check status codes, if 200 return, if 400 get json with description
+    # TODO: Check status codes in BRO REST API documentation.
     if response.status_code == 200:
         parsed = xmltodict.parse(response.content, attr_prefix="", cdata_key="value")
-        if parsed['dispatchCharacteristicsResponse']["numberOfDocuments"] == 0:
+
+        rejection_reason = parsed['dispatchCharacteristicsResponse'].get("brocom:rejectionReason")
+        if rejection_reason:
+            raise ValueError(f"{rejection_reason}")
+
+        nr_of_documents = parsed['dispatchCharacteristicsResponse'].get("numberOfDocuments")
+        if nr_of_documents == 0:
             raise ValueError("No available objects have been found in given date + area range. Retry with different parameters.")
 
         for document in parsed['dispatchCharacteristicsResponse']['dispatchDocument']:
