@@ -1,5 +1,13 @@
 # Changelog
 
+
+## (v0.2.2) (07/4/2023)
+### Added
+- Added rejection reason in get_cpt_characteristics
+
+### Fixed
+- Fixed bugs for optional values in CPTCharacteristics
+
 ## (v0.2.1rc5) (31/3/2023)
 ### Fixed
 - Inconsistent tags
