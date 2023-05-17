@@ -30,7 +30,7 @@ setup(
     classifiers=[
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
-        "License :: Free To Use",
+        "License :: OSI Approved :: MIT License",
         "Operating System :: Microsoft :: Windows",
         "Operating System :: POSIX :: Linux",
         "Programming Language :: Python :: 3.7",
