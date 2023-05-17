@@ -8,7 +8,7 @@ with open(Path(__file__).parent / "bro" / "__version__.py", "r") as f:
     exec(f.read(), about)
 
 license_content = (Path(__file__).parent / "LICENSE.txt").read_text()
-long_description = (Path(__file__).parent / "README.md").read_text()
+long_description = (Path(__file__).parent / "README-PYPI.md").read_text()
 long_description = long_description.replace("X.Y.Z", about["__version__"])
 long_description = long_description.replace("LICENSE-PLACEHOLDER", license_content)
 
@@ -33,7 +33,7 @@ setup(
     classifiers=[
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
-        "License :: Free To Use But Restricted",
+        "License :: Free To Use",
         "Operating System :: Microsoft :: Windows",
         "Operating System :: POSIX :: Linux",
         "Programming Language :: Python :: 3.7",

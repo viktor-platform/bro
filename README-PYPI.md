@@ -41,7 +41,8 @@ cpts = get_cpt_characteristics_and_return_cpt_objects(begin_date, end_date, area
 
 ```
 
-## Publish
-- update changelog with version number
-- update bro/__version__.py
-- tag with version number
+## LICENSE
+
+```
+LICENSE-PLACEHOLDER
+```
