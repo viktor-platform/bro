@@ -1,5 +1,11 @@
 # Changelog
 
+## (v0.2.5) (17/5/2023)
+### Fixed
+- Fixed fetching of quality class in CPtcharacteristics
+- Fixed wrong licensing in setup.py
+
+
 ## (v0.2.4) (07/4/2023)
 ### Fixed
 - Fixed type comparison if there are no documents 
