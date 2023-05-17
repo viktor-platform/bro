@@ -7,10 +7,8 @@ about = {}
 with open(Path(__file__).parent / "bro" / "__version__.py", "r") as f:
     exec(f.read(), about)
 
-license_content = (Path(__file__).parent / "LICENSE.txt").read_text()
-long_description = (Path(__file__).parent / "README-PYPI.md").read_text()
+long_description = (Path(__file__).parent / "README.md").read_text()
 long_description = long_description.replace("X.Y.Z", about["__version__"])
-long_description = long_description.replace("LICENSE-PLACEHOLDER", license_content)
 
 setup(
     name="bro",
@@ -18,7 +16,7 @@ setup(
     description="Open source python library for accessing BRO API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/viktor-platform/bro",
+    # url="https://github.com/viktor-platform/",
     author="VIKTOR",
     author_email="support@viktor.ai",
     license="see LICENSE.txt",
@@ -44,6 +42,7 @@ setup(
     ],
     test_suite="tests",
     project_urls={
+        "Source code": "https://github.com/viktor-platform/bro",
         "Example VIKTOR application": "https://demo.viktor.ai/public/bro-app",
         "Source code VIKTOR application": "https://github.com/viktor-platform/bro-app",
     },
