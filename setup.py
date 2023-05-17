@@ -16,7 +16,6 @@ setup(
     description="Open source python library for accessing BRO API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    # url="https://github.com/viktor-platform/",
     author="VIKTOR",
     author_email="support@viktor.ai",
     license="see LICENSE.txt",
