@@ -171,7 +171,7 @@ class CPTCharacteristics:
             float(parsed_dispatch_document["offset"]["value"]) if parsed_dispatch_document.get("offset") else None
         )
         self.quality_class: Optional[str] = (
-            parsed_dispatch_document["qualityClass"] if parsed_dispatch_document.get("offset") else None
+            parsed_dispatch_document["qualityClass"]["value"] if parsed_dispatch_document.get("qualityClass") else None
         )
         self.research_report_date: Optional[str] = (
             parsed_dispatch_document["researchReportDate"]["brocom:date"]
