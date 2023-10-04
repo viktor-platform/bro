@@ -275,23 +275,22 @@ def get_cpt_characteristics(begin_date: str, end_date: str, area: Union[Circle, 
     # TODO: Check status codes in BRO REST API documentation.
     if response.status_code == 200:
         parsed = xmltodict.parse(response.content, attr_prefix="", cdata_key="value")
-
-        rejection_reason = parsed["dispatchCharacteristicsResponse"].get("brocom:rejectionReason")
+        rejection_reason = parsed["dispatchCharacteristicsResponseType"].get("brocom:rejectionReason")
         if rejection_reason:
             raise ValueError(f"{rejection_reason}")
 
-        nr_of_documents = parsed["dispatchCharacteristicsResponse"].get("numberOfDocuments")
-        if nr_of_documents == "0":
+        nr_of_documents = parsed["dispatchCharacteristicsResponseType"].get("ns11:numberOfDocuments")
+        if nr_of_documents is None or nr_of_documents == "0":
             raise ValueError(
                 "No available objects have been found in given date + area range. Retry with different parameters."
             )
 
-        for document in parsed["dispatchCharacteristicsResponse"]["dispatchDocument"]:
+        for document in parsed["dispatchCharacteristicsResponseType"]["ns11:dispatchDocument"]:
             # TODO: Hard skip, this is likely to happen when it's deregistered. document will have key ["BRO_DO"]["brocom:deregistered"] = "ja"
             # TODO: Add this information to logger
-            if "CPT_C" not in document.keys():
+            if "ns11:CPT_C" not in document.keys():
                 continue
-            available_cpt_objects.append(CPTCharacteristics(document["CPT_C"]))
+            available_cpt_objects.append(CPTCharacteristics(document["ns11:CPT_C"]))
         return available_cpt_objects
     response.raise_for_status()
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## (v0.2.7) (04/10/2023)
+### Fixed
+- Breaking change in XML file returned from BRO REST API 
+
 ## (v0.2.6) (17/5/2023)
 ### Fixed
 - Fix failing built due to wrong PyPI Classifier 
