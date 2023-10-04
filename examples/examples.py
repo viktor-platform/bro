@@ -11,7 +11,7 @@ end_date = datetime(2023, 3, 3).strftime("%Y-%m-%d")
 lower_corner = Point(51.92269686635185, 4.469594207611851)
 upper_corner = Point(51.923034432171065, 4.470094707426648)
 
-# Define a bounding box, this bbox will give 35 CPTs in front of Rotterdam Central and a lot of deregistered ones
+# Define a bounding box, this bbox will give 33 CPTs in front of Rotterdam Central and a lot of deregistered ones
 # lower_corner = Point(51.92254633760697, 4.469672543777936)
 # upper_corner = Point(51.923349880667615, 4.471895836054459)
 
