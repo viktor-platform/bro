@@ -62,6 +62,8 @@ class Point:
         transformer = Transformer.from_crs(4326, 28992)
         rd_y, rd_x = transformer.transform(self.lat, self.lon)
         return RDPoint(rd_y, rd_x)
+
+
 # pylint: enable=unpacking-non-sequence
 
 
@@ -155,53 +157,59 @@ class CPTCharacteristics:
             *tuple(elem for elem in parsed_dispatch_document["brocom:deliveredLocation"]["gml:pos"].split(" "))
         )
         self.local_vertical_reference_point: Optional[str] = (
-            parsed_dispatch_document["localVerticalReferencePoint"]["value"]
-            if parsed_dispatch_document.get("localVerticalReferencePoint")
+            parsed_dispatch_document["ns11:localVerticalReferencePoint"]["value"]
+            if parsed_dispatch_document.get("ns11:localVerticalReferencePoint")
             else None
         )
         self.vertical_datum: Optional[str] = (
-            parsed_dispatch_document["verticalDatum"]["value"]
-            if parsed_dispatch_document.get("verticalDatum")
+            parsed_dispatch_document["ns11:verticalDatum"]["value"]
+            if parsed_dispatch_document.get("ns11:verticalDatum")
             else None
         )
         self.cpt_standard: Optional[str] = (
-            parsed_dispatch_document["cptStandard"]["value"] if parsed_dispatch_document.get("cptStandard") else None
-        )
-        self.offset: Optional[float] = (
-            float(parsed_dispatch_document["offset"]["value"]) if parsed_dispatch_document.get("offset") else None
-        )
-        self.quality_class: Optional[str] = (
-            parsed_dispatch_document["qualityClass"]["value"] if parsed_dispatch_document.get("qualityClass") else None
-        )
-        self.research_report_date: Optional[str] = (
-            parsed_dispatch_document["researchReportDate"]["brocom:date"]
-            if parsed_dispatch_document.get("researchReportDate")
+            parsed_dispatch_document["ns11:cptStandard"]["value"]
+            if parsed_dispatch_document.get("ns11:cptStandard")
             else None
         )
-        self.start_time: Optional[str] = parsed_dispatch_document.get("startTime")
+        self.offset: Optional[float] = (
+            float(parsed_dispatch_document["ns11:offset"]["value"])
+            if parsed_dispatch_document.get("ns11:offset")
+            else None
+        )
+        self.quality_class: Optional[str] = (
+            parsed_dispatch_document["ns11:qualityClass"]["value"]
+            if parsed_dispatch_document.get("ns11:qualityClass")
+            else None
+        )
+        self.research_report_date: Optional[str] = (
+            parsed_dispatch_document["ns11:researchReportDate"]["brocom:date"]
+            if parsed_dispatch_document.get("ns11:researchReportDate")
+            else None
+        )
+        self.start_time: Optional[str] = parsed_dispatch_document.get("ns11:startTime")
         self.predrilled_depth: Optional[float] = (
-            float(parsed_dispatch_document["predrilledDepth"]["value"])
-            if parsed_dispatch_document.get("predrilledDepth")
+            float(parsed_dispatch_document["ns11:predrilledDepth"]["value"])
+            if parsed_dispatch_document.get("ns11:predrilledDepth")
             else None
         )
         self.final_depth: Optional[float] = (
-            float(parsed_dispatch_document["finalDepth"]["value"])
-            if parsed_dispatch_document.get("finalDepth")
+            float(parsed_dispatch_document["ns11:finalDepth"]["value"])
+            if parsed_dispatch_document.get("ns11:finalDepth")
             else None
         )
         self.survey_purpose: Optional[str] = (
-            parsed_dispatch_document["surveyPurpose"]["value"]
-            if parsed_dispatch_document.get("surveyPurpose")
+            parsed_dispatch_document["ns11:surveyPurpose"]["value"]
+            if parsed_dispatch_document.get("ns11:surveyPurpose")
             else None
         )
         self.dissipation_test_performed: Optional[bool] = (
-            _str2bool(parsed_dispatch_document["dissipationTestPerformed"])
-            if parsed_dispatch_document.get("dissipationTestPerformed")
+            _str2bool(parsed_dispatch_document["ns11:dissipationTestPerformed"])
+            if parsed_dispatch_document.get("ns11:dissipationTestPerformed")
             else None
         )
         self.stop_criterion: Optional[str] = (
-            parsed_dispatch_document["stopCriterion"]["value"]
-            if parsed_dispatch_document.get("stopCriterion")
+            parsed_dispatch_document["ns11:stopCriterion"]["value"]
+            if parsed_dispatch_document.get("ns11:stopCriterion")
             else None
         )
 
@@ -223,6 +231,12 @@ class CPTCharacteristics:
     @property
     def wgs84_coordinate(self) -> Point:
         return self.standardized_location
+
+    @property
+    def total_cpt_length(self) -> Optional[float]:
+        if isinstance(self.offset, float) and isinstance(self.final_depth, float):
+            return round(self.offset + self.final_depth, 2)
+        return None
 
 
 def get_cpt_characteristics_and_return_cpt_objects(
