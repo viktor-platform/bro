@@ -62,6 +62,8 @@ class Point:
         transformer = Transformer.from_crs(4326, 28992)
         rd_y, rd_x = transformer.transform(self.lat, self.lon)
         return RDPoint(rd_y, rd_x)
+
+
 # pylint: enable=unpacking-non-sequence
 
 
@@ -165,13 +167,19 @@ class CPTCharacteristics:
             else None
         )
         self.cpt_standard: Optional[str] = (
-            parsed_dispatch_document["ns11:cptStandard"]["value"] if parsed_dispatch_document.get("ns11:cptStandard") else None
+            parsed_dispatch_document["ns11:cptStandard"]["value"]
+            if parsed_dispatch_document.get("ns11:cptStandard")
+            else None
         )
         self.offset: Optional[float] = (
-            float(parsed_dispatch_document["ns11:offset"]["value"]) if parsed_dispatch_document.get("ns11:offset") else None
+            float(parsed_dispatch_document["ns11:offset"]["value"])
+            if parsed_dispatch_document.get("ns11:offset")
+            else None
         )
         self.quality_class: Optional[str] = (
-            parsed_dispatch_document["ns11:qualityClass"]["value"] if parsed_dispatch_document.get("ns11:qualityClass") else None
+            parsed_dispatch_document["ns11:qualityClass"]["value"]
+            if parsed_dispatch_document.get("ns11:qualityClass")
+            else None
         )
         self.research_report_date: Optional[str] = (
             parsed_dispatch_document["ns11:researchReportDate"]["brocom:date"]
