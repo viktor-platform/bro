@@ -304,8 +304,6 @@ def get_cpt_characteristics(begin_date: str, end_date: str, area: Union[Circle, 
             # TODO: Add this information to logger
             if "ns11:CPT_C" not in document.keys():
                 continue
-            o = CPTCharacteristics(document["ns11:CPT_C"])
-            print(o.start_time, o.predrilled_depth, o.offset, o.final_depth, o.total_cpt_length)
             available_cpt_objects.append(CPTCharacteristics(document["ns11:CPT_C"]))
         return available_cpt_objects
     response.raise_for_status()
