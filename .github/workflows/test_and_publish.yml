@@ -1,7 +1,9 @@
 name: Test and publish
 
 on:
-  push
+  push:
+  schedule:
+    - cron: '*/5 * * * *' # Every 6th hour 0 (*/6) * * * these tests are run
 
 jobs:
 
