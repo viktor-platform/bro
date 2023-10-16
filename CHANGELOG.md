@@ -1,5 +1,20 @@
 # Changelog
 
+## (vx.x.x) (dd/mm/yyyy)
+### Added
+- Added extra workflow to test master branch regularly
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+
 ## (v0.2.9) (16/10/2023)
 ### Added
 
