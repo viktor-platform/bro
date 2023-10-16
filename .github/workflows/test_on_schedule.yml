@@ -10,18 +10,15 @@ jobs:
     name: Scheduled BRO REST API
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: 3.11
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
         pip install pytest pytest-cov coverage
         pip install -r requirements.txt
-    - name: Run tests
-      run: python -m unittest discover -b --start-directory ./tests
     - name: Build coverage file
       run: |
         pytest --cov=bro --cov-config=.coveragerc --junitxml=report.xml --cov-report=html:html/test-coverage-results
