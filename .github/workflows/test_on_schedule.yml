@@ -1,12 +1,13 @@
-name: Test and publish
+name: Test BRO REST API on Schedule
 
 on:
-  push
+  schedule:
+    - cron:  '*/5 * * * *' # Every 6th hour 0 (*/6) * * * these tests are run
 
 jobs:
 
   build:
-    name: Test
+    name: Scheduled BRO REST API
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -35,10 +36,3 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: coverage-results
-    - name: build dist
-      run: python3 -m pip install --upgrade build && python3 -m build
-    - name: Publish package
-      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        password: ${{ secrets.PYPI_API_TOKEN }}
