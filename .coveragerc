@@ -1,0 +1,9 @@
+[run]
+branch = False
+source = bro
+
+[report]
+show_missing = True
+skip_covered = True
+skip_empty = True
+sort = -Miss
