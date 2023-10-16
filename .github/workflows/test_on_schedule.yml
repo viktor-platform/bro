@@ -1,8 +1,8 @@
-name: Test BRO REST API on Schedule
+name: Test BRO REST API on schedule
 
 on:
   schedule:
-    - cron:  '*/5 * * * *' # Every 6th hour 0 (*/6) * * * these tests are run
+    - cron:  '6 */6 * * *' # Runs every 6th hour 6 minutes past the hour
 
 jobs:
 
@@ -10,7 +10,7 @@ jobs:
     name: Scheduled BRO REST API
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -19,6 +19,8 @@ jobs:
       run: |
         pip install pytest pytest-cov coverage
         pip install -r requirements.txt
+    - name: Run tests
+      run: python -m unittest discover -b --start-directory ./tests
     - name: Build coverage file
       run: |
         pytest --cov=bro --cov-config=.coveragerc --junitxml=report.xml --cov-report=html:html/test-coverage-results
@@ -29,7 +31,7 @@ jobs:
         name: coverage-results
         path: html/test-coverage-results
       if: ${{ always() }}
-    - name: Download Coverage results
+    - name: Download coverage results
       uses: actions/download-artifact@v3
       with:
         name: coverage-results
