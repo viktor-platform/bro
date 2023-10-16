@@ -1,5 +1,11 @@
 # Changelog
 
+## (v0.2.9) (16/10/2023)
+### Added
+
+### Fixed
+- Rerolled changes in XML file returned from BRO REST API as the API changed back to working with package version v0.2.6
+
 ## (v0.2.8) (06/10/2023)
 ### Added
 - Added calculation of total cpt length as property of CPTCharacteristics, if available

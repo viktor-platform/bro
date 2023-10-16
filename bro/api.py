@@ -157,59 +157,53 @@ class CPTCharacteristics:
             *tuple(elem for elem in parsed_dispatch_document["brocom:deliveredLocation"]["gml:pos"].split(" "))
         )
         self.local_vertical_reference_point: Optional[str] = (
-            parsed_dispatch_document["ns11:localVerticalReferencePoint"]["value"]
-            if parsed_dispatch_document.get("ns11:localVerticalReferencePoint")
+            parsed_dispatch_document["localVerticalReferencePoint"]["value"]
+            if parsed_dispatch_document.get("localVerticalReferencePoint")
             else None
         )
         self.vertical_datum: Optional[str] = (
-            parsed_dispatch_document["ns11:verticalDatum"]["value"]
-            if parsed_dispatch_document.get("ns11:verticalDatum")
+            parsed_dispatch_document["verticalDatum"]["value"]
+            if parsed_dispatch_document.get("verticalDatum")
             else None
         )
         self.cpt_standard: Optional[str] = (
-            parsed_dispatch_document["ns11:cptStandard"]["value"]
-            if parsed_dispatch_document.get("ns11:cptStandard")
-            else None
+            parsed_dispatch_document["cptStandard"]["value"] if parsed_dispatch_document.get("cptStandard") else None
         )
         self.offset: Optional[float] = (
-            float(parsed_dispatch_document["ns11:offset"]["value"])
-            if parsed_dispatch_document.get("ns11:offset")
-            else None
+            float(parsed_dispatch_document["offset"]["value"]) if parsed_dispatch_document.get("offset") else None
         )
         self.quality_class: Optional[str] = (
-            parsed_dispatch_document["ns11:qualityClass"]["value"]
-            if parsed_dispatch_document.get("ns11:qualityClass")
-            else None
+            parsed_dispatch_document["qualityClass"]["value"] if parsed_dispatch_document.get("qualityClass") else None
         )
         self.research_report_date: Optional[str] = (
-            parsed_dispatch_document["ns11:researchReportDate"]["brocom:date"]
-            if parsed_dispatch_document.get("ns11:researchReportDate")
+            parsed_dispatch_document["researchReportDate"]["brocom:date"]
+            if parsed_dispatch_document.get("researchReportDate")
             else None
         )
-        self.start_time: Optional[str] = parsed_dispatch_document.get("ns11:startTime")
+        self.start_time: Optional[str] = parsed_dispatch_document.get("startTime")
         self.predrilled_depth: Optional[float] = (
-            float(parsed_dispatch_document["ns11:predrilledDepth"]["value"])
-            if parsed_dispatch_document.get("ns11:predrilledDepth")
+            float(parsed_dispatch_document["predrilledDepth"]["value"])
+            if parsed_dispatch_document.get("predrilledDepth")
             else None
         )
         self.final_depth: Optional[float] = (
-            float(parsed_dispatch_document["ns11:finalDepth"]["value"])
-            if parsed_dispatch_document.get("ns11:finalDepth")
+            float(parsed_dispatch_document["finalDepth"]["value"])
+            if parsed_dispatch_document.get("finalDepth")
             else None
         )
         self.survey_purpose: Optional[str] = (
-            parsed_dispatch_document["ns11:surveyPurpose"]["value"]
-            if parsed_dispatch_document.get("ns11:surveyPurpose")
+            parsed_dispatch_document["surveyPurpose"]["value"]
+            if parsed_dispatch_document.get("surveyPurpose")
             else None
         )
         self.dissipation_test_performed: Optional[bool] = (
-            _str2bool(parsed_dispatch_document["ns11:dissipationTestPerformed"])
-            if parsed_dispatch_document.get("ns11:dissipationTestPerformed")
+            _str2bool(parsed_dispatch_document["dissipationTestPerformed"])
+            if parsed_dispatch_document.get("dissipationTestPerformed")
             else None
         )
         self.stop_criterion: Optional[str] = (
-            parsed_dispatch_document["ns11:stopCriterion"]["value"]
-            if parsed_dispatch_document.get("ns11:stopCriterion")
+            parsed_dispatch_document["stopCriterion"]["value"]
+            if parsed_dispatch_document.get("stopCriterion")
             else None
         )
 
@@ -289,22 +283,22 @@ def get_cpt_characteristics(begin_date: str, end_date: str, area: Union[Circle, 
     # TODO: Check status codes in BRO REST API documentation.
     if response.status_code == 200:
         parsed = xmltodict.parse(response.content, attr_prefix="", cdata_key="value")
-        rejection_reason = parsed["dispatchCharacteristicsResponseType"].get("brocom:rejectionReason")
+        rejection_reason = parsed["dispatchCharacteristicsResponse"].get("brocom:rejectionReason")
         if rejection_reason:
             raise ValueError(f"{rejection_reason}")
 
-        nr_of_documents = parsed["dispatchCharacteristicsResponseType"].get("ns11:numberOfDocuments")
+        nr_of_documents = parsed["dispatchCharacteristicsResponse"].get("numberOfDocuments")
         if nr_of_documents is None or nr_of_documents == "0":
             raise ValueError(
                 "No available objects have been found in given date + area range. Retry with different parameters."
             )
 
-        for document in parsed["dispatchCharacteristicsResponseType"]["ns11:dispatchDocument"]:
+        for document in parsed["dispatchCharacteristicsResponse"]["dispatchDocument"]:
             # TODO: Hard skip, this is likely to happen when it's deregistered. document will have key ["BRO_DO"]["brocom:deregistered"] = "ja"
             # TODO: Add this information to logger
-            if "ns11:CPT_C" not in document.keys():
+            if "CPT_C" not in document.keys():
                 continue
-            available_cpt_objects.append(CPTCharacteristics(document["ns11:CPT_C"]))
+            available_cpt_objects.append(CPTCharacteristics(document["CPT_C"]))
         return available_cpt_objects
     response.raise_for_status()
 
