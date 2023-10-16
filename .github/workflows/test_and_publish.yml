@@ -23,8 +23,19 @@ jobs:
       run: python -m unittest discover -b --start-directory ./tests
     - name: Build coverage file
       run: |
-        pytest --cov=bro --cov-config=.coveragerc --junitxml=report.xml --cov-report=xml:coverage.xml
+        pytest --cov=bro --cov-config=.coveragerc --junitxml=report.xml --cov-report=html/test-coverage-results
         coverage report --skip-covered || true
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-results
+        path: html/test-coverage-results
+      if: ${{ always() }}
+    - name: Download Coverage results
+      uses: actions/download-artifact@v3
+      with:
+        name: coverage-results
+
     - name: build dist
       run: python3 -m pip install --upgrade build && python3 -m build
     - name: Publish package
