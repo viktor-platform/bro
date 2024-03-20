@@ -62,4 +62,4 @@ disable = [
 max-attributes = 25
 
 [tool.black]
-line_length = 120
+line-length = 120
