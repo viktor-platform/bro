@@ -34,7 +34,6 @@ dependencies = { file = "requirements.txt" }
 
 [tool.setuptools.packages.find]
 include = ["bro*"]
-exclude = ["tests"]
 
 [tool.isort]
 profile = "black"
