@@ -1,14 +1,52 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bro"
+authors = [{ name = "VIKTOR", email = "support@viktor.ai" }]
+description = "Open source python library for accessing BRO API"
+requires-python = ">=3.7"
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE.txt" }
+classifiers = [
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dynamic = ["version", "dependencies"]
+
+[project.urls]
+"Source code" = "https://github.com/viktor-platform/bro"
+"Example VIKTOR application" = "https://demo.viktor.ai/public/bro-app"
+"Source code VIKTOR application" = "https://github.com/viktor-platform/bro-app"
+
+[tool.setuptools.dynamic]
+version = { attr = "bro.__version__" }
+dependencies = { file = "requirements.txt" }
+
+[tool.setuptools.packages.find]
+include = ["bro*"]
+exclude = ["tests"]
+
 [tool.isort]
-profile="black"
+profile = "black"
 line_length = 120
-multi_line_output=1
-include_trailing_comma= true
-force_grid_wrap=0
-use_parentheses= false
+multi_line_output = 1
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = false
 
 [tool.pylint]
 max-line-length = 120
-disable= [
+disable = [
     "missing-docstring",
     "no-name-in-module",
     "duplicate-code",
@@ -19,7 +57,7 @@ disable= [
     "fixme",
     "too-many-arguments",
     "too-many-branches",
-    "unspecified-encoding"
+    "unspecified-encoding",
 ]
 max-attributes = 25
 
