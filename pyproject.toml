@@ -29,11 +29,11 @@ dynamic = ["version", "dependencies"]
 "Source code VIKTOR application" = "https://github.com/viktor-platform/bro-app"
 
 [tool.setuptools.dynamic]
-version = { attr = "bro.__version__" }
 dependencies = { file = "requirements.txt" }
+version = { attr = "bro.__version__.__version__" }
 
 [tool.setuptools.packages.find]
-include = ["bro*"]
+exclude = ["tests*"]
 
 [tool.isort]
 profile = "black"
