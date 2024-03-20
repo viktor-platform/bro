@@ -14,6 +14,9 @@
 
 ### Security
 
+### Dependencies
+- (#23) updated depencies and set lower bound so installing is less strict
+
 
 ## (v0.2.9) (16/10/2023)
 ### Added
