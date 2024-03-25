@@ -1,7 +1,13 @@
 # Environments
 env/
 venv/
+.venv/
 
 # pycharm
 .idea/
 __pycache__/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/

@@ -5,6 +5,7 @@
 - Added extra workflow to test master branch regularly
 
 ### Changed
+- (#6) removed setup.py and replaced by pyproject.toml 
 
 ### Deprecated
 
