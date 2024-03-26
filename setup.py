@@ -23,7 +23,7 @@ setup(
     packages=find_packages(exclude=["tests"]),
     install_requires=[
         "xmltodict==0.13.0",
-        "requests==2.28.2",
+        "requests==2.31.0",
         "lxml==4.9.2",
         "pyproj==3.4.1",
     ],
