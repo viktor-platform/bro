@@ -23,6 +23,7 @@ CPT_OBJECT_URL = "https://publiek.broservices.nl/sr/cpt/v1/objects/"
 CPT_CHARACTERISTICS_URL = (
     f"https://publiek.broservices.nl/sr/cpt/v1/characteristics/searches?requestReference={REQUEST_REFERENCE}"
 )
+BRO_REQUEST_TIMEOUT = 20
 
 
 # pylint: disable=unpacking-non-sequence
@@ -277,7 +278,7 @@ def get_cpt_characteristics(begin_date: str, end_date: str, area: Union[Circle, 
         "area": area.bro_json,
     }
 
-    response = requests.post(CPT_CHARACTERISTICS_URL, headers=headers, json=json, timeout=10)
+    response = requests.post(CPT_CHARACTERISTICS_URL, headers=headers, json=json, timeout=BRO_REQUEST_TIMEOUT)
 
     available_cpt_objects = []
     # TODO: Check status codes in BRO REST API documentation.

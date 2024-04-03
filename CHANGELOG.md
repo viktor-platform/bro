@@ -2,7 +2,6 @@
 
 ## (vx.x.x) (dd/mm/yyyy)
 ### Added
-- Added extra workflow to test master branch regularly
 
 ### Changed
 
@@ -15,7 +14,25 @@
 ### Security
 
 ### Dependencies
-- (#23) updated depencies and set lower bound so installing is less strict
+
+
+## (v0.2.10) (03/04/2024)
+### Added
+- Added extra workflow to test master branch regularly
+
+### Changed
+- Changed request timeout to 20 s instead of 10
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+### Dependencies
+- (#23) updated dependencies and set lower bound so installing is less strict
 
 
 ## (v0.2.9) (16/10/2023)
