@@ -22,10 +22,10 @@ setup(
     license_files=("LICENSE.txt",),
     packages=find_packages(exclude=["tests"]),
     install_requires=[
-        "xmltodict==0.13.0",
-        "requests==2.28.2",
-        "lxml==4.9.2",
-        "pyproj==3.4.1",
+        "xmltodict>=0.13.0",
+        "requests>=2.31.0",
+        "lxml>=5.1.0",
+        "pyproj>=3.6.1",
     ],
     classifiers=[
         "Environment :: Web Environment",
@@ -33,7 +33,6 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: Microsoft :: Windows",
         "Operating System :: POSIX :: Linux",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
