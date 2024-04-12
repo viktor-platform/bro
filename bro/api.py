@@ -320,7 +320,6 @@ def get_cpt_object(bro_cpt_id: str, as_dict: bool = False) -> Union[bytes, dict]
     )
     # TODO: Check status codes in BRO REST API documentation.
     if response.status_code == 200:
-        print(bro_cpt_id)
         if as_dict:
             return IMBROFile(response.content).parse()
         return response.content
