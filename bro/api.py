@@ -177,7 +177,7 @@ class CPTCharacteristics:
             parsed_dispatch_document["qualityClass"]["value"] if parsed_dispatch_document.get("qualityClass") else None
         )
         self.research_report_date: Optional[str] = (
-            parsed_dispatch_document["researchReportDate"]["brocom:date"]
+            parsed_dispatch_document["researchReportDate"].get("brocom:date", "-")
             if parsed_dispatch_document.get("researchReportDate")
             else None
         )
@@ -316,10 +316,11 @@ def get_cpt_object(bro_cpt_id: str, as_dict: bool = False) -> Union[bytes, dict]
     }
 
     response = requests.get(
-        f"{CPT_OBJECT_URL}{bro_cpt_id}?requestReference={REQUEST_REFERENCE}", headers=headers, timeout=10
+        f"{CPT_OBJECT_URL}{bro_cpt_id}?requestReference={REQUEST_REFERENCE}", headers=headers, timeout=BRO_REQUEST_TIMEOUT
     )
     # TODO: Check status codes in BRO REST API documentation.
     if response.status_code == 200:
+        print(bro_cpt_id)
         if as_dict:
             return IMBROFile(response.content).parse()
         return response.content

@@ -15,6 +15,22 @@
 
 ### Dependencies
 
+## (v0.2.11) (12/04/2024)
+### Added
+
+### Changed
+- Updated all requests to have timeout of 20s.
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Fixed breaking CPT retrieval on possible "brocom:date" key missing  
+
+### Security
+
+### Dependencies
 
 ## (v0.2.10) (03/04/2024)
 ### Added
